@@ -18,7 +18,9 @@
                     </div>
                 </div>
                 <div class="bg-white px-4 py-5 sm:p-6">
-                    <button type="submit" class="inline-flex justify-center rounded-md border border-transparent bg-black py-2 px-4 text-white">Find A Ride</button>
+                    <button
+                     @click.prevent="handleSelectLocation"
+                     type="submit" class="inline-flex justify-center rounded-md border border-transparent bg-black py-2 px-4 text-white">Find A Ride</button>
                 </div>
             </div>
         </form>
@@ -43,6 +45,11 @@ function setPlace(e) {
             }
         }
     })
+}
+
+function handleSelectLocation() {
+    if(!location.destination.name) return alert('Please select a destination')
+    router.push({ name: 'map'})
 }
 
 </script>
