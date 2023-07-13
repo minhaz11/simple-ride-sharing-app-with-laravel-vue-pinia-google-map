@@ -51,7 +51,7 @@
 <script setup>
     import { vMaska} from 'maska'
     import { ref, reactive, onMounted} from 'vue'
-    import  axios  from 'axios'
+    import  http  from '../helpers/http.js'
     import { useRouter } from 'vue-router'
 
     const router = useRouter();
@@ -63,14 +63,14 @@
 
     onMounted(() => {
         if (localStorage.getItem('token')) {
-            router.push({name: 'index'})
+            router.push({name: 'start'})
         }
     })
 
     const waitingOnVerification = ref(false)
 
     const handleLogin = () => {
-        axios.post('http://127.0.0.1:8000/api/login', credentials)
+        http().post('/login', credentials)
         .then(response => {
             waitingOnVerification.value = true;
         }).catch(error => {
@@ -81,7 +81,7 @@
 
     const handleVerification = async() => {
        try {
-            const response = await axios.post('http://127.0.0.1:8000/api/login/verify', credentials)
+            const response = await http().post('/login/verify', credentials)
 
             localStorage.setItem('token', response.data)
 

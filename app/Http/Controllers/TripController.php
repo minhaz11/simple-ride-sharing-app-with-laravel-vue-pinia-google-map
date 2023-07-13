@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\TripAccepted;
+use App\Events\TripCreated;
 use App\Events\TripEnded;
 use App\Events\TripLocationUpdated;
 use App\Events\TripStart;
@@ -19,7 +20,11 @@ class TripController extends Controller
             'destination_name'=>'required',
         ]);
 
-        return $request->user()->trips()->create($data);
+        $trip = $request->user()->trips()->create($data);
+        
+        TripCreated::dispatch($trip,$request->user());
+
+        return $trip;
     }
 
     function show(Request $request,Trip $trip){
